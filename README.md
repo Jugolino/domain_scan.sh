@@ -35,13 +35,15 @@ Clone o repositório ou faça o download do script.
 
 ### Dê permissão de execução ao script:
 
+```bash
 chmod +x DomainScan.sh
+```
 
+### Execute o script fornecido o domínio alvo como argumento:
 
-Execute o script fornecido o domínio alvo como argumento:
-
+```bash
 ./DomainScan.sh exemplo.com
-
+```
 
 Estrutura do Relatório
 
