@@ -1,38 +1,33 @@
-#DomainScan
+DomainScan
 
 
 Descrição
 
-DomainScan é um script em Bash para coleta de informações de rede, histórico para reconhecimento e auditoria de segurança em domínios. 
-Ele realiza a coleta de informações de DNS, força bruta de subdomínios e verificação de portas, além de fornecer detalhes do sistema operacional dos alvos encontrados.
+**DomainScan** é um script em Bash para coleta de informações de rede, voltado para reconhecimento e auditoria de segurança em domínios. Ele realiza a coleta de informações de DNS, força bruta de subdomínios e verificação de portas, além de fornecer detalhes do sistema operacional dos alvos encontrados.
 
 Este script é útil para analistas de segurança e entusiastas de redes que precisam identificar rapidamente a infraestrutura de um domínio e possíveis subdomínios ativos.
 
 
-Funcionalidades
+## Funcionalidades
 
-Consulta de Registros DNS : Obtém registros A, NS, MX, e TXT do domínio.
+- **Consulta de Registros DNS**: Obtém registros A, NS, MX, e TXT do domínio.
+- **Força Bruta de Subdomínios**: Verifica subdomínios comuns e registra os encontrados.
+- **Verificação de Portas e Sistema Operacional**: Realiza uma varredura nas portas mais comuns (22, 80, 443, 3306, 8080) e tenta identificar o sistema operacional.
 
-Força Bruta de Subdomínios : Verifique subdomínios comuns e registre os encontrados.
-
-Verificação de Portas e Sistema Operacional : Realize uma varredura nas portas mais comuns (22, 80, 443, 3306, 8080) e tente identificar o sistema operacional.
-
-
-Pré-requisitos
+## Pré-requisitos
 
 Para usar o script, você precisará das seguintes ferramentas:
 
-dig– para consultas de DNS.
+- `dig` – para consultas de DNS.
+- `nmap` – para verificação de portas e identificação de sistema operacional.
 
-nmap– para verificação de portas e identificação de sistema operacional.
 
+Certifique-se de que esses pacotes estão instalados em sua máquina. Caso não estejam, você pode instalá-los com os seguintes comandos:
 
--OK se esses pacotes estão instalados em sua máquina. Caso não esteja, você pode conectar-los com os seguintes comandos:
-
+```bash
 sudo apt-get install dnsutils
-
 sudo apt-get install nmap
-
+```
 
 Uso
 
