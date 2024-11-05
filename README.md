@@ -29,13 +29,11 @@ sudo apt-get install dnsutils
 sudo apt-get install nmap
 ```
 
-Uso
-
-
+## Uso
 Clone o repositório ou faça o download do script.
 
 
-Dê permissão de execução ao script:
+### Dê permissão de execução ao script:
 
 chmod +x DomainScan.sh
 
