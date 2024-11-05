@@ -1,5 +1,5 @@
- #!/bin/bash
- 
+#!/bin/bash
+
 # Nome do arquivo para salvar resultados
 output_file="relatorio_dominio.txt"
  
@@ -29,61 +29,60 @@ subdominios_comuns=(
 
 # Função para realizar brute force de subdomínios
 function bruteforce_subdominios() {
-  echo -e "\nExecutando brute force de subdomínios para $dominio" | tee -a "$output_file"
-  for sub in "${subdominios_comuns[@]}"; do
-      # Forma o subdomínio completo
-      subdominio="$sub.$dominio"
-      # Verifica se o subdomínio existe e registra apenas os encontrados
-      if host "$subdominio" &> /dev/null; then
-          echo "$subdominio - [ENCONTRADO]" | tee -a "$output_file"
-      fi
- 40     done
- 41 }
- 42 
- 43 # Função para consulta de DNS com dig
- 44 function consultar_dns() {
- 45     echo -e "\nConsultando registros DNS para $dominio" | tee -a "$output_file"
- 46     registros=("A" "NS" "MX" "TXT")
- 47     for reg in "${registros[@]}"; do
- 48         resultado=$(dig +short "$reg" "$dominio")
- 49         # Só adiciona ao relatório se houver resultado
- 50         if [ -n "$resultado" ]; then
- 51             echo "[Registro $reg]" | tee -a "$output_file"
- 52             echo "$resultado" | tee -a "$output_file"
- 53         fi
- 54     done
- 55 }
- 56 
- 57 # Função para realizar verificação de portas e sistema operacional com nmap
- 58 function verificar_portas_e_sistema() {
- 59     echo -e "\nIniciando verificação de portas e sistema operacional..." | tee -a "$output_file"
- 60     # Remove duplicatas de subdomínios/domínios resolvidos para escanear com nmap
- 61     sort -u "$output_file" | while read -r linha; do
- 62         alvo=$(echo "$linha" | cut -d ' ' -f1)  # Obtém o domínio/subdomínio da linha
- 63         if [ -n "$alvo" ]; then
- 64             nmap_result=$(nmap -Pn -p 22,80,443,3306,8080 --min-rate=1000 -T4 -O "$alvo" | \
- 65                           grep -E "open|closed|filtered|Running|OS details")
- 66             # Só adiciona ao relatório se houver algum resultado do nmap
- 67             if [ -n "$nmap_result" ]; then
- 68                 echo -e "\n--------------------------------------------" >> "$output_file"
- 69                 echo "[Alvo: $alvo]" | tee -a "$output_file"
- 70                 echo "$nmap_result" | tee -a "$output_file"
- 71                 echo -e "--------------------------------------------" >> "$output_file"
- 72             fi
- 73         fi
- 74     done
- 75 }
- 76 
- 77 # Executa as funções de coleta de forma assíncrona
- 78 consultar_dns
- 79 bruteforce_subdominios
- 80 
- 81 # Aguarda a conclusão das consultas DNS e brute force de subdomínios
- 82 wait
- 83 
- 84 # Realiza varredura de portas e sistema operacional para cada domínio/subdomínio encontrado
- 85 verificar_portas_e_sistema
- 86 
- 87 echo "Coleta concluída! Relatório completo disponível em $output_file."
- 88 
+   echo -e "\nExecutando brute force de subdomínios para $dominio" | tee -a "$output_file"
+   for sub in "${subdominios_comuns[@]}"; do
+       # Forma o subdomínio completo
+       subdominio="$sub.$dominio"
+       # Verifica se o subdomínio existe e registra apenas os encontrados
+       if host "$subdominio" &> /dev/null; then
+           echo "$subdominio - [ENCONTRADO]" | tee -a "$output_file"
+       fi
+   done
+}
+
+# Função para consulta de DNS com dig
+function consultar_dns() {
+    echo -e "\nConsultando registros DNS para $dominio" | tee -a "$output_file"
+    registros=("A" "NS" "MX" "TXT")
+    for reg in "${registros[@]}"; do
+        resultado=$(dig +short "$reg" "$dominio")
+        # Só adiciona ao relatório se houver resultado
+        if [ -n "$resultado" ]; then
+            echo "[Registro $reg]" | tee -a "$output_file"
+            echo "$resultado" | tee -a "$output_file"
+        fi
+    done
+}
+# Função para realizar verificação de portas e sistema operacional com nmap
+function verificar_portas_e_sistema() {
+    echo -e "\nIniciando verificação de portas e sistema operacional..." | tee -a "$output_file"
+    # Remove duplicatas de subdomínios/domínios resolvidos para escanear com nmap
+    sort -u "$output_file" | while read -r linha; do
+         alvo=$(echo "$linha" | cut -d ' ' -f1)  # Obtém o domínio/subdomínio da linha
+         if [ -n "$alvo" ]; then
+            nmap_result=$(nmap -Pn -p 22,80,443,3306,8080 --min-rate=1000 -T4 -O "$alvo" | \
+                          grep -E "open|closed|filtered|Running|OS details")
+            # Só adiciona ao relatório se houver algum resultado do nmap
+            if [ -n "$nmap_result" ]; then
+                echo -e "\n--------------------------------------------" >> "$output_file"
+                echo "[Alvo: $alvo]" | tee -a "$output_file"
+                echo "$nmap_result" | tee -a "$output_file"
+                echo -e "--------------------------------------------" >> "$output_file"
+            fi
+         fi
+     done
+ }
+  
+# Executa as funções de coleta de forma assíncrona
+consultar_dns
+bruteforce_subdominios
+  
+# Aguarda a conclusão das consultas DNS e brute force de subdomínios
+wait
+  
+# Realiza varredura de portas e sistema operacional para cada domínio/subdomínio encontrado
+verificar_portas_e_sistema
+  
+echo "Coleta concluída! Relatório completo disponível em $output_file."
+  
 ~                                                                                   
