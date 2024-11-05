@@ -45,49 +45,45 @@ chmod +x DomainScan.sh
 ./DomainScan.sh exemplo.com
 ```
 
-Estrutura do Relatório
+# Estrutura do Relatório
+
+### Os resultados serão salvos em um arquivo chamado relatorio_dominio.txtno diretório onde o script for executado. Esse arquivo inclui:
+
+- Subdomínios identificados com força bruta.
+
+- Registros DNS (A, NS, MX, TXT).
+
+- Informações sobre portas abertas e possíveis sistemas operacionais.
 
 
-Os resultados serão salvos em um arquivo chamado relatorio_dominio.txtno diretório onde o script for executado. Esse arquivo inclui:
+# Exemplo de Saída
 
-Subdomínios identificados com força bruta.
-
-Registros DNS (A, NS, MX, TXT).
-
-Informações sobre portas abertas e possíveis sistemas operacionais.
+Iniciando coleta para o domínio: **exemplo.com** O relatório será salvo em **relatorio_dominio.txt**
 
 
-
-Exemplo de Saída
-
-Iniciando coleta para o domínio: exemplo.com
-
-Relatório será salvo em relatorio_dominio.txt
-
-
-[Registro A]
+**[Registro A]**
 
 192.0.2.1
 
-[Registro MX]
+**[Registro MX]**
 
 10 mail.exemplo.com
 
 
-sub.exemplo.com - [ENCONTRADO]
+*sub.exemplo.com - [ENCONTRADO]*
 
 
-[Alvo: sub.exemplo.com]
+**[Alvo: sub.exemplo.com]**
 
 
-PORT   STATE SERVICE
+**PORT   STATE SERVICE**
 
 22/tcp open  ssh
 
 OS details: Linux 2.6.X
 
 
-Notas e Considerações
+# Notas e Considerações
 
 O script foi projetado para ser utilizado em redes autorizadas. Não execute o script em redes ou domínios sem permissão.
 
